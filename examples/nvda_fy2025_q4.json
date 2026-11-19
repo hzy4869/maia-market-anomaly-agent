@@ -1,0 +1,66 @@
+{
+  "case_id": "nvda_fy2025_q4",
+  "ticker": "NVDA",
+  "event_at": "2025-02-26T16:21:32-05:00",
+  "cutoff_at": "2025-02-27T16:30:00-05:00",
+  "positive_claim": "NVIDIA reported fiscal fourth-quarter revenue of $39.331 billion, up 78% year over year, and GAAP diluted EPS of $0.89, up 82%.",
+  "positive_evidence_ids": ["E1"],
+  "synthetic": false,
+  "prices": {
+    "start_at": "2025-02-26T16:00:00-05:00",
+    "end_at": "2025-02-27T16:00:00-05:00",
+    "stock_start": 131.28,
+    "stock_end": 120.15,
+    "benchmark_start": 594.54,
+    "benchmark_end": 585.05,
+    "benchmark_ticker": "SPY",
+    "source": "Yahoo Finance daily closes, NVDA and SPY, 2025-02-26 and 2025-02-27 (Close column)"
+  },
+  "evidence": [
+    {
+      "id": "E1",
+      "title": "NVIDIA earnings and revenue growth",
+      "text": "Fiscal Q4 2025 revenue was $39.331 billion (+78% year on year). GAAP diluted EPS was $0.89 (+82% year on year).",
+      "source": "NVIDIA earnings release via SEC EDGAR",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000021/q4fy25pr.htm",
+      "published_at": "2025-02-26T16:21:32-05:00",
+      "kind": "filing"
+    },
+    {
+      "id": "E2",
+      "title": "NVIDIA gross margin and revenue guidance",
+      "text": "GAAP gross margin was 73.0%, down from 74.6% the preceding quarter and 76.0% a year earlier. Next-quarter guidance was 70.6% GAAP gross margin and 71.0% non-GAAP gross margin, each with a 50 basis point range in either direction. Revenue guidance was $43.0 billion, plus or minus 2%.",
+      "source": "NVIDIA earnings release via SEC EDGAR",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000021/q4fy25pr.htm",
+      "published_at": "2025-02-26T16:21:32-05:00",
+      "kind": "filing"
+    },
+    {
+      "id": "E3",
+      "title": "NVIDIA Data Center results",
+      "text": "Data Center revenue reached $35.6 billion, up 93% year over year. Management noted billions of dollars in Blackwell sales in its first quarter on the market.",
+      "source": "NVIDIA earnings release via SEC EDGAR",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000021/q4fy25pr.htm",
+      "published_at": "2025-02-26T16:21:32-05:00",
+      "kind": "filing"
+    },
+    {
+      "id": "E4",
+      "title": "Broader market decline on February 27",
+      "text": "The S&P 500 fell 1.6%, the Nasdaq Composite fell 2.8%, and the Russell 2000 fell 1.6%. Associated Press reported concerns about possible tariffs and weakness across high-momentum AI shares.",
+      "source": "Associated Press",
+      "url": "https://apnews.com/article/fda7e3051e8f75ecb2f4263da9522a8b",
+      "published_at": "2025-02-27T16:19:29-05:00",
+      "kind": "news"
+    },
+    {
+      "id": "E5",
+      "title": "US GDP second estimate",
+      "text": "The BEA reported annualized US real GDP growth of 2.3% for Q4 2024, versus 3.1% in Q3. The Q4 estimate was the same as the previously published advance estimate.",
+      "source": "US Bureau of Economic Analysis",
+      "url": "https://www.bea.gov/news/2025/gross-domestic-product-4th-quarter-and-year-2024-second-estimate",
+      "published_at": "2025-02-27T08:30:00-05:00",
+      "kind": "other"
+    }
+  ]
+}

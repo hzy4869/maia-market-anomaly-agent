@@ -1,0 +1,25 @@
+{
+  "case_id": "nvda_fy2025_q4_live",
+  "ticker": "NVDA",
+  "benchmark": "SPY",
+  "start_at": "2025-02-26T16:00:00-05:00",
+  "end_at": "2025-02-27T16:00:00-05:00",
+  "cutoff_at": "2025-02-27T16:30:00-05:00",
+  "positive_claim": "NVIDIA reported fiscal fourth-quarter revenue of $39.331 billion, up 78% year over year, and GAAP diluted EPS of $0.89, up 82%.",
+  "filing": {
+    "cik": 1045810,
+    "accession": "0001045810-25-000021",
+    "document": "q4fy25pr.htm"
+  },
+  "evidence": [
+    {
+      "id": "E4",
+      "title": "Broader market decline on February 27",
+      "text": "The S&P 500 fell 1.6%, the Nasdaq Composite fell 2.8%, and the Russell 2000 fell 1.6%. Associated Press reported concerns about possible tariffs and weakness across high-momentum AI shares.",
+      "source": "Associated Press",
+      "url": "https://apnews.com/article/fda7e3051e8f75ecb2f4263da9522a8b",
+      "published_at": "2025-02-27T16:19:29-05:00",
+      "kind": "news"
+    }
+  ]
+}

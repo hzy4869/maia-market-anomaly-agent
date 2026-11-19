@@ -1,0 +1,24 @@
+{
+  "case_id": "synthetic_earnings",
+  "ticker": "DEMO",
+  "synthetic": true,
+  "event_at": "2026-10-20T16:30:00+00:00",
+  "cutoff_at": "2026-10-21T10:00:00+00:00",
+  "positive_claim": "Fictional company reports 15% year-on-year profit growth; no consensus beat is asserted.",
+  "positive_evidence_ids": ["E1"],
+  "prices": {
+    "start_at": "2026-10-20T16:00:00+00:00",
+    "end_at": "2026-10-21T09:30:00+00:00",
+    "stock_start": 100,
+    "stock_end": 95,
+    "benchmark_start": 100,
+    "benchmark_end": 98
+  },
+  "evidence": [
+    {"id":"E1","title":"Synthetic earnings announcement","text":"Net profit increased 15% year on year. Revenue increased 8%. No historical consensus dataset is supplied.","source":"Fictional issuer","published_at":"2026-10-20T16:30:00+00:00","kind":"filing"},
+    {"id":"E2","title":"Synthetic margin guidance","text":"Management lowered next-quarter gross margin guidance from 40% to 36%, citing input costs.","source":"Fictional issuer call","published_at":"2026-10-20T17:00:00+00:00","kind":"filing"},
+    {"id":"E3","title":"Synthetic demand counter-evidence","text":"Management said demand remained stable and full-year revenue guidance was unchanged. This challenges a broad demand-collapse explanation but does not negate margin pressure.","source":"Fictional issuer call","published_at":"2026-10-20T17:05:00+00:00","kind":"filing"},
+    {"id":"E4","title":"Synthetic sector peers decline","text":"The sector benchmark fell 2% over the same observation window; three peers declined between 1% and 3%.","source":"Fictional market snapshot","published_at":"2026-10-21T09:35:00+00:00","kind":"market"},
+    {"id":"E5","title":"Future sector margin story — excluded","text":"A subsequent article attributes the decline to margin guidance. This was not available at the investigation cutoff.","source":"Fictional later news","published_at":"2026-10-22T12:00:00+00:00","kind":"news"}
+  ]
+}
