@@ -19,11 +19,6 @@ from .models import Case, PriceWindow
 SEARCH_DAYS = 365
 EASTERN = ZoneInfo("America/New_York")
 SEC_COMPANIES = "https://www.sec.gov/files/company_tickers.json"
-COMPANY_ALIASES = {
-    "英伟达": "NVDA", "輝達": "NVDA", "辉达": "NVDA", "苹果": "AAPL", "蘋果": "AAPL",
-    "微软": "MSFT", "微軟": "MSFT", "特斯拉": "TSLA", "亚马逊": "AMZN", "亞馬遜": "AMZN",
-    "谷歌": "GOOGL", "Google": "GOOGL", "脸书": "META", "Facebook": "META",
-}
 DOCUMENT_NAME = re.compile(r"[A-Za-z0-9_-][A-Za-z0-9_.-]*\.html?", re.IGNORECASE)
 ACCESSION = re.compile(r"\d{10}-\d{2}-\d{6}")
 
@@ -57,7 +52,7 @@ def resolve_company(rows, value):
     value = value.strip()
     if not value:
         raise ValueError("Enter a company name or US ticker")
-    ticker = COMPANY_ALIASES.get(value, value).upper().replace(".", "-")
+    ticker = value.upper().replace(".", "-")
     matches = [row for row in rows if row["ticker"].upper().replace(".", "-") == ticker]
     if not matches:
         name = _name_key(value)

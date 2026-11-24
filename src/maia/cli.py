@@ -68,7 +68,13 @@ def main():
         if isinstance(reasoner, APIReasoner):
             reasoner.allow_search = max_rounds > 0
         graph = build_graph(reasoner, LocalEvidenceStore(all_initial=args.baseline),
-                            max_rounds, countercheck)
+                            max_rounds, countercheck, synthesize=not args.baseline)
+        # print("Investigation graph (--> fixed, -.-> conditional):")
+        # for edge in graph.get_graph().edges:
+        #     arrow = "-.->" if edge.conditional else "-->"
+        #     print(f"  {edge.source} {arrow} {edge.target}")
+        # print(flush=True)
+
         result = graph.invoke({"case": case, "investigation": Investigation()},
                               config={"recursion_limit": 40})
     except Exception as exc:
@@ -78,6 +84,8 @@ def main():
         "case": case.model_dump(mode="json"),
         "evidence": [e.model_dump(mode="json") for e in result["evidence"]],
         "investigation": result["investigation"].model_dump(mode="json"),
+        "conclusion": result["conclusion"].model_dump(mode="json"),
+        "hypothesis_origins": result["hypothesis_origins"],
         "metrics": result["metrics"], "audit": result["audit"],
         "trace": result["trace"],
         "config": {"mode": args.mode, "max_rounds": max_rounds,

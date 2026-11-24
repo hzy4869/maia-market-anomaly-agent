@@ -4,6 +4,10 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
+MAX_INITIAL_HYPOTHESES = 5
+MAX_ACTIVE_HYPOTHESES = 8
+
+
 class Record(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -67,14 +71,46 @@ class Hypothesis(Record):
     missing: list[str] = Field(default_factory=list)
 
 
+class HypothesisProposal(Hypothesis):
+    trigger_ids: list[str] = Field(min_length=1, max_length=5)
+    support_test: str = Field(min_length=1, max_length=600)
+    weaken_test: str = Field(min_length=1, max_length=600)
+
+
 class SearchRequest(Record):
     query: str = Field(min_length=1)
     reason: str
+    hypothesis_id: str | None = None
 
 
 class Investigation(Record):
-    hypotheses: list[Hypothesis] = Field(default_factory=list, max_length=5)
+    hypotheses: list[Hypothesis] = Field(default_factory=list, max_length=MAX_ACTIVE_HYPOTHESES)
     searches: list[SearchRequest] = Field(default_factory=list, max_length=3)
+    new_hypotheses: list[HypothesisProposal] = Field(default_factory=list, max_length=3)
+    retired_hypothesis_ids: list[str] = Field(default_factory=list, max_length=MAX_ACTIVE_HYPOTHESES)
+
+
+class Conclusion(Record):
+    status: Literal["leading", "inconclusive", "not_applicable"]
+    summary: str = Field(min_length=1, max_length=1800)
+    hypothesis_id: str | None = None
+    evidence_ids: list[str] = Field(default_factory=list, max_length=12)
+    key_gap: str | None = Field(default=None, max_length=600)
+
+    @model_validator(mode="after")
+    def check_assessment(self):
+        if not self.summary.strip():
+            raise ValueError("Conclusion requires a summary")
+        if self.status == "leading" and self.hypothesis_id is None:
+            raise ValueError("A leading conclusion requires a selected hypothesis")
+        if self.hypothesis_id is not None:
+            if self.status == "not_applicable":
+                raise ValueError("A skipped conclusion may not select a hypothesis")
+            if not self.hypothesis_id.strip() or not self.evidence_ids:
+                raise ValueError("A selected hypothesis requires an ID and cited evidence")
+        if self.status != "not_applicable" and not (self.key_gap and self.key_gap.strip()):
+            raise ValueError("Conclusion requires the most important remaining evidence gap")
+        return self
 
 
 class PositiveDisclosure(Record):

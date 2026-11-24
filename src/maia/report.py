@@ -54,6 +54,20 @@ def render_report(state: State, model: str | None = None, discovery: dict | None
         lines += [f"Price source: {c.prices.source}",
                   f"Benchmark: {c.prices.benchmark_ticker or 'unspecified'}",
                   f"Price window: {c.prices.start_at.isoformat()} to {c.prices.end_at.isoformat()}", ""]
+    if conclusion := state.get("conclusion"):
+        lines += ["## Conclusion", ""]
+        if conclusion.hypothesis_id:
+            lines += [f"**Best-supported hypothesis: {conclusion.hypothesis_id}**", ""]
+        lines += [conclusion.summary, ""]
+        if conclusion.status == "inconclusive":
+            lines.append("**Causal assessment: Inconclusive.**")
+        elif conclusion.status == "leading":
+            lines.append("**Causal assessment: Provisional lead; causation is unverified.**")
+        if conclusion.evidence_ids:
+            lines.append(f"Evidence: {', '.join(conclusion.evidence_ids)}")
+        if conclusion.key_gap:
+            lines.append(f"Key evidence gap: {conclusion.key_gap}")
+        lines.append("")
     if discovery:
         lines += [render_discovery(discovery), ""]
     if not m["price_declined"]:
@@ -67,6 +81,23 @@ def render_report(state: State, model: str | None = None, discovery: dict | None
                   f"Supporting IDs: {', '.join(h.supporting_ids) or 'none'}",
                   f"Opposing IDs: {', '.join(h.opposing_ids) or 'none found; not proof of absence'}",
                   "Missing: " + ("; ".join(h.missing) or "not specified"), ""]
+    discoveries = [(id_, origin) for id_, origin in state.get("hypothesis_origins", {}).items()
+                   if origin["round"] > 0]
+    if discoveries:
+        active_ids = {h.id for h in hypotheses}
+        lines += ["## Hypotheses raised by new evidence", ""]
+        for id_, origin in discoveries:
+            status = "retained for review" if id_ in active_ids else "removed from final candidates"
+            lines += [f"### {id_}: {origin['explanation']}", "",
+                      f"Introduced in round {origin['round']} ({origin['node']}); {status}.",
+                      f"New evidence that prompted it: {', '.join(origin['trigger_ids'])}",
+                      f"Would support it: {origin['support_test']}",
+                      f"Would weaken it: {origin['weaken_test']}", ""]
+    pending = state["audit"].get("unexecuted_searches", [])
+    if pending:
+        lines += ["## Follow-up searches left open", ""]
+        lines.extend(f"- {r['hypothesis_id'] or 'General'}: {r['query']} ({r['reason']})" for r in pending)
+        lines.append("")
     lines += ["## Evidence ledger", ""]
     for e in state["evidence"]:
         lines += [f"### {e.id}: {e.title}", "", f"Source: {e.source}; published {e.published_at.isoformat()}",
